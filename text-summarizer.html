@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Summarizer Tool</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 28px;
+    }
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 15px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      resize: none;
+      margin-bottom: 20px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .output {
+      border: 2px dashed #007bff;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 100px;
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      margin-bottom: 20px;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Text Summarizer Tool</h1>
+    <textarea id="inputText" placeholder="Paste your long text here for summarization..."></textarea>
+    <div class="btn-group">
+      <button onclick="summarizeText()">Summarize</button>
+      <button onclick="clearText()">Clear</button>
+      <button onclick="copySummary()">Copy Summary</button>
+    </div>
+    <div class="output" id="summaryOutput">Summary will appear here...</div>
+    <div class="info">
+      <span id="wordCount">Words: 0</span>
+      <span id="charCount">Characters: 0</span>
+    </div>
+  </div>
+
+  <script>
+    const inputText = document.getElementById('inputText');
+    const summaryOutput = document.getElementById('summaryOutput');
+    const wordCount = document.getElementById('wordCount');
+    const charCount = document.getElementById('charCount');
+
+    inputText.addEventListener('input', updateCounts);
+
+    function updateCounts() {
+      const text = inputText.value.trim();
+      wordCount.innerText = 'Words: ' + (text ? text.split(/\s+/).length : 0);
+      charCount.innerText = 'Characters: ' + text.length;
+    }
+
+    function summarizeText() {
+      const text = inputText.value.trim();
+      if (!text) {
+        alert('Please enter some text to summarize!');
+        return;
+      }
+      // Simple logic for demo - API connect karna ho to yaha se kar sakte ho
+      let sentences = text.split('.').filter(s => s.trim().length > 0);
+      let summary = sentences.slice(0, Math.ceil(sentences.length / 3)).join('. ') + '.';
+      summaryOutput.innerText = summary;
+    }
+
+    function clearText() {
+      inputText.value = '';
+      summaryOutput.innerText = 'Summary will appear here...';
+      updateCounts();
+    }
+
+    function copySummary() {
+      const summary = summaryOutput.innerText.trim();
+      if (!summary || summary === 'Summary will appear here...') {
+        alert('No summary to copy!');
+        return;
+      }
+      navigator.clipboard.writeText(summary);
+      alert('Summary copied to clipboard!');
+    }
+  </script>
+
+</body>
+</html>
