@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Generator - Convert Files to PDF | ToolHub</title>
+    <meta name="description" content="Convert images (JPG/PNG) and text files to PDF instantly. Free online PDF creator with customizable settings.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        /* Inherit base styles from main CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* PDF Generator Styles */
+        .pdf-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-box {
+            border: 2px dashed #6c5ce7;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-box:hover {
+            background: #f5f3ff;
+        }
+
+        #fileList {
+            margin: 2rem 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .file-item img {
+            max-width: 50px;
+            max-height: 50px;
+            border-radius: 5px;
+        }
+
+        .file-item .file-name {
+            flex: 1;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+
+        .file-item .file-size {
+            color: #666;
+        }
+
+        .options {
+            margin: 2rem 0;
+        }
+
+        .option-group {
+            margin: 1.5rem 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .download-btn {
+            background: #6c5ce7;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #5a4dcc;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">ToolHub</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#tools">Tools</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <div class="pdf-container">
+        <h1>PDF Generator</h1>
+        <p class="subtitle">Convert images and text files to PDF instantly</p>
+
+        <div class="upload-box" id="dropZone">
+            <i class="fas fa-file-pdf fa-3x" style="color: #6c5ce7;"></i>
+            <p>Drag and drop files or click to upload</p>
+            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.txt" multiple hidden>
+        </div>
+
+        <!-- File List Section -->
+        <div id="fileList">
+            <!-- Uploaded files will appear here -->
+        </div>
+
+        <div class="options">
+            <div class="option-group">
+                <label>Page Format:</label>
+                <select id="pageFormat">
+                    <option value="A4">A4</option>
+                    <option value="Letter">Letter</option>
+                    <option value="Legal">Legal</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label>Page Orientation:</label>
+                <select id="pageOrientation">
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="download-btn" id="generateBtn">Generate PDF</button>
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Generating PDF...</p>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const fileList = document.getElementById('fileList');
+        const generateBtn = document.getElementById('generateBtn');
+        const loading = document.querySelector('.loading');
+        
+        let files = [];
+
+        // Event Listeners
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('drop', handleDrop);
+        fileInput.addEventListener('change', handleFileSelect);
+        generateBtn.addEventListener('click', generatePDF);
+
+        async function handleDrop(e) {
+            e.preventDefault();
+            files = Array.from(e.dataTransfer.files);
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            files = Array.from(e.target.files);
+            handleFiles(files);
+        }
+
+        function handleFiles(selectedFiles) {
+            // Validate file types
+            const validTypes = ['image/jpeg', 'image/png', 'text/plain'];
+            const invalidFiles = selectedFiles.filter(file => !validTypes.includes(file.type));
+            
+            if(invalidFiles.length > 0) {
+                alert('Invalid file type. Please upload JPG, PNG, or TXT files.');
+                return;
+            }
+            
+            files = selectedFiles;
+            generateBtn.disabled = false;
+            renderFileList();
+        }
+
+        function renderFileList() {
+            fileList.innerHTML = ''; // Clear previous list
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+
+                if(file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    fileItem.appendChild(img);
+                } else {
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-file-alt fa-2x';
+                    fileItem.appendChild(icon);
+                }
+
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = file.name;
+                fileItem.appendChild(fileName);
+
+                const fileSize = document.createElement('div');
+                fileSize.className = 'file-size';
+                fileSize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+                fileItem.appendChild(fileSize);
+
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        async function generatePDF() {
+            if(files.length === 0) return;
+            
+            loading.style.display = 'block';
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: document.getElementById('pageOrientation').value,
+                unit: 'mm',
+                format: document.getElementById('pageFormat').value
+            });
+
+            try {
+                for(const file of files) {
+                    if(file.type.startsWith('image/')) {
+                        await addImageToPDF(pdf, file);
+                    } else if(file.type === 'text/plain') {
+                        await addTextToPDF(pdf, file);
+                    }
+                }
+
+                pdf.save('generated-document.pdf');
+            } catch(error) {
+                alert('Error generating PDF: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        async function addImageToPDF(pdf, file) {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            
+            return new Promise((resolve) => {
+                img.onload = () => {
+                    const imgWidth = pdf.internal.pageSize.getWidth();
+                    const imgHeight = (img.height * imgWidth) / img.width;
+                    
+                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    if(files.indexOf(file) !== files.length - 1) pdf.addPage();
+                    resolve();
+                };
+                img.src = url;
+            });
+        }
+
+        async function addTextToPDF(pdf, file) {
+            const text = await file.text();
+            const lines = pdf.splitTextToSize(text, pdf.internal.pageSize.getWidth() - 20);
+            
+            pdf.setFontSize(12);
+            pdf.text(lines, 10, 20);
+            if(files.indexOf(file) !== files.length - 1) pdf.addPage();
+        }
+    </script>
+</body>
+</html>
