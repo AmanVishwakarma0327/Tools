@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Converter - Convert DOCX, PDF, TXT Online | ToolHub</title>
+    <meta name="description" content="Free online document converter to convert DOCX, PDF, TXT files easily. Fast and secure file conversion.">
+    <meta name="keywords" content="document converter, convert PDF, convert DOCX, convert TXT, online file converter">
+    <meta name="author" content="ToolHub">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .converter-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .upload-box {
+            border: 2px dashed #6c5ce7;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-box:hover {
+            background: #f5f3ff;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .format-select {
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .convert-btn {
+            background: #6c5ce7;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: block;
+            margin: 1.5rem auto;
+            transition: background 0.3s ease;
+        }
+
+        .convert-btn:hover {
+            background: #5a4dcc;
+        }
+
+        .file-info {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .download-btn {
+            display: none;
+            margin: 1rem auto;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="converter-container">
+        <h1>Document Converter</h1>
+        <p style="text-align: center;">Convert documents between PDF, DOCX, TXT formats</p>
+
+        <div class="upload-box" id="upload-box">
+            <i class="fas fa-file-upload fa-3x" style="color: #6c5ce7;"></i>
+            <p>Click to upload or drag & drop your file</p>
+            <input type="file" id="file-input" accept=".pdf, .docx, .txt">
+        </div>
+
+        <div class="format-select">
+            <label for="output-format">Convert To:</label>
+            <select id="output-format">
+                <option value="pdf">PDF</option>
+                <option value="docx">DOCX</option>
+                <option value="txt">TXT</option>
+            </select>
+        </div>
+
+        <div class="file-info" id="file-info">No file selected</div>
+
+        <button class="convert-btn" id="convert-btn">Convert Document</button>
+
+        <a id="download-btn" class="download-btn" download>Download Converted File</a>
+
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p>Converting, please wait...</p>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const uploadBox = document.getElementById('upload-box');
+        const fileInfo = document.getElementById('file-info');
+        const convertBtn = document.getElementById('convert-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const loading = document.getElementById('loading');
+        const outputFormat = document.getElementById('output-format');
+
+        let selectedFile = null;
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+        uploadBox.addEventListener('dragover', (e) => e.preventDefault());
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            selectedFile = e.dataTransfer.files[0];
+            fileInfo.textContent = Selected File: ${selectedFile.name};
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            fileInfo.textContent = Selected File: ${selectedFile.name};
+        });
+
+        convertBtn.addEventListener('click', () => {
+            if (!selectedFile) {
+                alert('Please select a file first.');
+                return;
+            }
+
+            loading.style.display = 'block';
+
+            // Simulating conversion process (Fake delay)
+            setTimeout(() => {
+                loading.style.display = 'none';
+                const blob = new Blob(["Converted content of " + selectedFile.name], { type: "application/octet-stream" });
+                const url = URL.createObjectURL(blob);
+                downloadBtn.href = url;
+                downloadBtn.download = converted_file.${outputFormat.value};
+                downloadBtn.style.display = 'block';
+            }, 3000); // Simulate 3 seconds delay
+        });
+    </script>
+
+</body>
+
+</html>
+
