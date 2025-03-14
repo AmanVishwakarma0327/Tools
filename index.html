@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ToolHub - Free online tools for PDF generation, image compression, document conversion, QR code generation, and more. Simplify your work with our powerful tools.">
+    <meta name="keywords" content="online tools, PDF generator, image compressor, document converter, QR code generator, text summarizer, file compressor">
+    <meta name="author" content="ToolHub">
+    <meta name="robots" content="index, follow">
+
+    <!-- Title for SEO -->
+    <title>ToolHub - Free Online Tools for PDF, Image, Document, and QR Code</title>
+
+    <!-- Favicon for branding -->
+    <link rel="icon" type="image/png" href="https://example.com/favicon.png">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Canonical URL to avoid duplicate content issues -->
+    <link rel="canonical" href="https://example.com">
+
+    <!-- Open Graph meta tags for social media sharing -->
+    <meta property="og:title" content="ToolHub - Free Online Tools for PDF, Image, Document, and QR Code">
+    <meta property="og:description" content="Simplify your work with ToolHub's free online tools. Generate PDFs, compress images, convert documents, create QR codes, and more.">
+    <meta property="og:image" content="https://example.com/og-image.jpg">
+    <meta property="og:url" content="https://example.com">
+
+    <!-- Twitter Card meta tags for Twitter sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ToolHub - Free Online Tools for PDF, Image, Document, and QR Code">
+    <meta name="twitter:description" content="Simplify your work with ToolHub's free online tools. Generate PDFs, compress images, convert documents, create QR codes, and more.">
+    <meta name="twitter:image" content="https://example.com/twitter-image.jpg">
+
+    <!-- Styles for the website -->
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Body styles */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation bar */
+        nav {
+            background: #ffffff;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #6c5ce7;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: #ffffff;
+            color: #6c5ce7;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        /* Tools grid section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 4rem 5%;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-card i {
+            font-size: 3rem;
+            color: #6c5ce7;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tool-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-card .btn {
+            background: #6c5ce7;
+            color: white;
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .tool-card .btn:hover {
+            background: #5a4dcc;
+        }
+
+        /* Footer section */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav>
+        <div class="logo">ToolHub</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#tools">Tools</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero section -->
+    <section class="hero">
+        <h1>Your All-in-One Toolbox</h1>
+        <p>Free, fast, and secure online tools to simplify your work</p>
+        <a href="#tools" class="btn">Get Started</a>
+    </section>
+
+    <!-- Tools grid section -->
+    <section class="tools-grid">
+        <div class="tool-card">
+            <i class="fas fa-file-pdf"></i>
+            <h3>PDF Generator</h3>
+            <p>Create PDF files from various formats instantly</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+
+        <div class="tool-card">
+            <i class="fas fa-image"></i>
+            <h3>Image Compressor</h3>
+            <p>Compress images without losing quality</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+
+        <div class="tool-card">
+            <i class="fas fa-file-word"></i>
+            <h3>Document Converter</h3>
+            <p>Convert between various document formats</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+
+        <div class="tool-card">
+            <i class="fas fa-qrcode"></i>
+            <h3>QR Code Generator</h3>
+            <p>Generate QR codes for URLs, text, and more</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+
+        <div class="tool-card">
+            <i class="fas fa-file-alt"></i>
+            <h3>Text Summarizer</h3>
+            <p>Summarize long texts into concise paragraphs</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+
+        <div class="tool-card">
+            <i class="fas fa-file-archive"></i>
+            <h3>File Compressor</h3>
+            <p>Compress files to reduce their size</p>
+            <a href="#" class="btn">Use Tool</a>
+        </div>
+    </section>
+
+    <!-- Footer section -->
+    <footer>
+        <p>© 2023 ToolHub. All rights reserved.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+</body>
+</html>
